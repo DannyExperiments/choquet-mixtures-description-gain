@@ -1,0 +1,3 @@
+24564 exact geometric lower-envelope inequalities
+Exact three-atom mixture, last bad indices, budgets and density floors
+30 exact truncation distances and positive missing masses

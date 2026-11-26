@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "Cite this version of the research release."
+title: "Maximum description gain under arbitrary measurable mixtures"
+authors:
+  - name: "DannyExperiments"
+type: software
+version: "1.0.0"
+date-released: 2026-11-27
+repository-code: "https://github.com/DannyExperiments/choquet-mixtures-description-gain"
+keywords:
+  - "description gain"
+  - "reverse information projection"
+  - "Choquet mixtures"
+  - "countable convexity"
+  - "subprobability measures"
+  - "logarithmic loss"
+doi: "10.5281/zenodo.24572497"
+url: "https://doi.org/10.5281/zenodo.24572497"
+preferred-citation:
+  type: software
+  title: "Maximum description gain under arbitrary measurable mixtures"
+  authors:
+    - name: "DannyExperiments"
+  version: "1.0.0"
+  date-released: 2026-11-27
+  doi: "10.5281/zenodo.24572497"
+  url: "https://doi.org/10.5281/zenodo.24572497"
+  repository-code: "https://github.com/DannyExperiments/choquet-mixtures-description-gain"

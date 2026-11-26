@@ -1,0 +1,30 @@
+{
+  "title": "Maximum description gain under arbitrary measurable mixtures",
+  "upload_type": "software",
+  "version": "1.0.0",
+  "publication_date": "2026-11-27",
+  "creators": [
+    {
+      "name": "DannyExperiments"
+    }
+  ],
+  "description": "For a countably convex class of subprobabilities, the description-gain supremum is unchanged by arbitrary measurable mixtures or by closing the densities in L¹. All measures share a single σ-finite dominator. The theorem answers the question in Appendix C of Lardy, Grünwald and Harremoës, IEEE Transactions on Information Theory 70 (2024).\n\nHahn–Banach separation places the measurable barycenters in the norm closure. The proof then selects a countable geometric mixture of approximants. The last low entry at each point controls the loss of its log ratio, and its expectation is bounded. This provides a quantitative approximation even without a finite-gain member given in advance and preserves a positive-infinite gain.\n\nThe earlier paper treats attained projections and countable mixtures with extra premises. With a finite-gain anchor, ordinary finite convexity suffices through the standard Fatou argument. The manuscript gives separate examples for failure without an anchor or a common dominator. Exact replays check the geometric envelope, finite-support truncations and a worked three-atom example. The explorer separates the certified floor from the actual mixture density. The theorem concerns the supremum and leaves attainment open. External peer review and formal verification are pending.\n\nUnder human direction, ChatGPT Astra 6.2 (OpenAI) generated the discovery proof and original replay packet. The release includes the archived scope note on finite convexity. OpenAI Codex reviewed the mathematics and revised the manuscript. GPT-6.2 Sol checked the original question and related literature, prepared the exact finite replay and worked visual, and assembled the release. DannyExperiments maintains the repository and is the preferred citation identity. No AI system is proposed as an author.",
+  "keywords": [
+    "description gain",
+    "reverse information projection",
+    "Choquet mixtures",
+    "countable convexity",
+    "subprobability measures",
+    "logarithmic loss"
+  ],
+  "access_right": "open",
+  "license": "other-closed",
+  "notes": "All rights reserved. Publicly downloadable files are supplied without a repository-wide reuse license.",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/DannyExperiments/choquet-mixtures-description-gain/releases/tag/v1.0.0",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ]
+}

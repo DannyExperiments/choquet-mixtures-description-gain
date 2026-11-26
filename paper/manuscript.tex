@@ -1,0 +1,108 @@
+\documentclass[11pt,a4paper]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amssymb}
+\DeclareFontShape{OMX}{cmex}{m}{n}{<->cmex10}{}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Maximum description gain under arbitrary measurable mixtures}}
+\DeclareMathSizes{8}{8}{8}{8}
+\DeclareMathSizes{9}{9}{8}{8}
+\DeclareMathSizes{10.95}{10.95}{8}{8}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\title[Maximum description gain under measurable mixtures]{Maximum description gain under\texorpdfstring{\\}{ }arbitrary measurable mixtures}
+\date{November 27, 2026}
+\begin{document}
+\begin{abstract}
+Lardy, Gr\"unwald and Harremo\"es asked whether the maximum description gain of a countably convex class of subprobabilities changes when arbitrary measurable mixtures are allowed, under common domination. We show that the supremum is unchanged, even on the full norm closure of its densities. The proof chooses a geometric countable mixture whose shortfall in the log ratio has an integrable bound. This covers infinite gains and classes without a finite-gain member given in advance. We also give the anchored finite-convex case and examples showing the role of the assumptions.
+\end{abstract}
+\maketitle
+
+\section{Description gain and the mixture problem}
+
+Let \(\Omega\) be a Polish space with its Borel sigma field. A subprobability is a nonnegative measure of total mass at most one. Fix subprobabilities \(P,Q\) and a class \(\mathcal C\) of subprobabilities. Suppose they all have densities with respect to one sigma-finite measure \(\lambda\). For a candidate \(R\) with density \(r\), and the density \(q\) of \(Q\), put
+\begin{equation}\label{eq:gain}
+ g(R)=\int\log(r/q)\,dP-R(\Omega)+Q(\Omega).
+\end{equation}
+We use \(\log 0=-\infty\), and \(r/q=+\infty\) when \(q=0<r\). An undefined integral or a zero-over-zero ratio on a set of positive \(P\)-mass contributes \(-\infty\) to the supremum. The same proof works with a fixed value at zero over zero. The supremum over an empty class is \(-\infty\).
+
+A class is \(\sigma\)-convex if it contains every countable probability mixture of its members. An arbitrary measurable mixture is the barycenter \(S\) of a family \(\{R_\theta\}_{\theta\in\Theta}\) under a probability law \(\nu\) on \(\Theta\). Here the family is a measurable kernel, so \(S(A)=\int R_\theta(A)\,d\nu(\theta)\) for every Borel set \(A\). The Choquet hull \(\mathcal C'\) is the smallest class containing \(\mathcal C\) and closed under the measurable mixtures of the source's Polish/Borel model.
+
+Lardy, Gr\"unwald and Harremo\"es ask in Appendix C of \cite{lgh} whether the gain supremum is invariant under this larger hull. The same question appears in Appendix A.3 of Lardy's dissertation \cite{thesis}. Their Corollary 1 handles an attained reverse projection, and their Lemma 4 and Theorem 7 concern countable mixtures under additional premises.
+
+\begin{theorem}\label{thm:main}
+If \(\mathcal C\) is \(\sigma\)-convex, let \(\mathcal B\) be the class of measures whose densities form the \(L^1(\lambda)\) norm closure of the densities of \(\mathcal C\). Then
+\[
+ \sup_{R\in\mathcal C}g(R)=\sup_{R\in\mathcal C'}g(R)
+                          =\sup_{R\in\mathcal B}g(R).
+\]
+This equality uses the extended gain, including the possible values \(\pm\infty\).
+\end{theorem}
+
+\section{Measurable mixtures stay in the norm closure}
+
+Assume \(\mathcal C\) is nonempty. Its norm closure is convex and consists of nonnegative densities with integral at most one. If \(S\) is a measurable mixture of members of \(\mathcal B\), it is still a subprobability and is dominated by \(\lambda\), because every \(\lambda\)-null set is null for each component. The defining integral identity for indicators extends to every bounded measurable function by approximation by simple functions.
+
+If the density \(s\) of \(S\) were outside the closed convex density class, Hahn--Banach would strictly separate it by an element of \((L^1(\lambda))^*=L^\infty(\lambda)\). Choose a bounded measurable representative \(h\) of this separating functional. Its integral against \(S\) is the mixture average of the values \(\int h\,dR_\theta\), all of which are bounded above by the supremum over \(\mathcal B\). This contradicts strict separation. In particular this argument needs no jointly measurable selection of the component densities. Thus \(\mathcal B\) is closed under the specified mixtures and contains \(\mathcal C'\), including when the hull is defined by repeated mixing. The same conclusion holds whenever \(\mathcal C\) is merely finitely convex.
+
+\section{A countable mixture controls the log loss}
+
+Let \(S\in\mathcal B\) have density \(s\), and fix \(0<\delta<1\). An \(L^1\)-approximating sequence of densities from \(\mathcal C\) has a subsequence converging to \(s\) almost everywhere for \(\lambda\), hence for \(P\). On \(\{s>0\}\), the indicators of the event that an approximant is less than \((1-\delta)s\) converge to zero. By bounded convergence with respect to the finite measure \(P\), choose a density \(r_n\) of \(R_n\in\mathcal C\) for each \(n\ge1\) with
+\[
+ \|r_n-s\|_1\le\delta,\qquad
+ P(B_n)\le\delta\,2^{-n}/n,\qquad
+ B_n=\{s>0,\ r_n<(1-\delta)s\}.
+\]
+Use the probability weights \(2^{-n}\) and set \(R=\sum_{n\ge1}2^{-n}R_n\). Countable convexity gives \(R\in\mathcal C\), and its density is the corresponding pointwise nonnegative series almost everywhere. It obeys \(\|r-s\|_1\le\delta\).
+
+Define \(N=\sup(\{0\}\cup\{n:\omega\in B_n\})\). Pointwise, \(N\le\sum_{n\ge1}n\,1_{B_n}\), so \(\int N\,dP\le\delta\) and \(N<\infty\) almost surely for \(P\). Once \(n>N\), every term is at least \((1-\delta)s\) on \(\{s>0\}\). The weights after \(N\) sum to \(2^{-N}\). We obtain
+\begin{equation}\label{eq:envelope}
+ r\ge (1-\delta)2^{-N}s\qquad P\text{-almost surely}.
+\end{equation}
+This is also true where \(s=0\). It bounds the log loss by the nonnegative function \(H=-\log(1-\delta)+N\log2\), with integral at most \(-P(\Omega)\log(1-\delta)+\delta\log 2\).
+
+Now suppose \(g(S)>-\infty\), so the negative part of its log ratio is integrable and the integral is defined. Wherever both \(q,s>0\), \eqref{eq:envelope} gives \(\log(r/q)\ge\log(s/q)-H\). Where \(q=0<s\), both ratios are positive infinite almost surely, since \(r>0\). The set where \(s=0<q\) must be \(P\)-null. The set of zero over zero is also null under the undefined-value convention for this candidate. With a fixed value used instead, raising the numerator preserves or increases that value. Thus the inequality integrates without subtracting infinities and preserves a positive-infinite gain. The norm error bounds the difference of total masses by \(\delta\), giving
+\begin{equation}\label{eq:approx}
+ g(R)\ge g(S)-\delta+P(\Omega)\log(1-\delta)-\delta\log2 .
+\end{equation}
+Let \(\delta\) decrease to zero. This gives \(\sup_{\mathcal C}g\ge\sup_{\mathcal B}g\), with the all-negative-infinite case immediate. The opposite inequality and the Choquet-hull equality follow from the inclusions. This proves Theorem~\ref{thm:main}.
+
+\section{Finite convexity with an anchor}
+
+\begin{proposition}\label{prop:anchor}
+The same three suprema agree when \(\mathcal C\) is finitely convex, \(P\ll Q\), and \(g(R_0)\) is finite for some \(R_0\in\mathcal C\). In particular \(Q\in\mathcal C\) is sufficient as an anchor if \(P\ll Q\).
+\end{proposition}
+
+\begin{proof}
+Given \(S\in\mathcal B\) with \(g(S)>-\infty\), choose \(R_n\in\mathcal C\) with densities converging in norm and almost everywhere along a subsequence. For fixed \(0<t<1\), the densities of \((1-t)R_n+tR_0\) have log ratio against \(q\) bounded below by \(\log t+\log(r_0/q)\), which is integrable with respect to \(P\). Fatou's lemma and convergence of masses show that \(\sup_{\mathcal C}g\ge g((1-t)S+tR_0)\). Concavity of log and linearity of the mass penalty bound this value below by \((1-t)g(S)+tg(R_0)\), also when \(g(S)=+\infty\). Let \(t\) decrease to zero and apply the closure inclusions. If \(Q\in\mathcal C\), its gain is zero by \(P\ll Q\).
+\end{proof}
+
+This is the lower-envelope principle already used for countable mixtures in Appendix C, Lemma 4 of \cite{lgh}. The difference in Theorem~\ref{thm:main} is that the lower envelope is constructed from the chosen norm approximants.
+
+\section{Two obstructions}
+
+\emph{Finite convexity without an anchor.}
+Let \(P=Q\) be a full-support geometric law on \(\mathbb N_0\), and let \(\mathcal C\) be the finitely supported probability laws. Counting measure dominates all inputs and \(\mathcal C\) is finitely convex. Each member has gain \(-\infty\), since it vanishes on a set of positive \(P\)-mass. The normalized finite truncations of \(P\) converge in norm, and \(P\) is a countable mixture of point masses in \(\mathcal C\). Its gain is zero. This is the fixed-reference form of \cite[Example~4]{lgh}.
+
+\emph{Absence of a common dominator.}
+Let \(P=Q\) be uniform on \([0,1]\), and let \(\mathcal C\) be the countably supported probability measures. It is closed under countable mixtures. For an individual \(R\in\mathcal C\), use the dominator \(P+R\). Its density is zero \(P\)-almost surely and the reference has positive density, so \(g(R)=-\infty\). Yet the uniform measurable mixture of point masses gives \(P\) and gain zero. A sigma-finite measure cannot dominate all the point masses on \([0,1]\), since such a measure has at most countably many positive-mass singletons. Thus domination of just \(P,Q\) does not suffice.
+
+The gains in both examples can be compared directly at \(R=P\). With \(P=Q\), the inequality \(\log u\le u-1\) also shows that zero is the larger supremum. The result concerns the value of the supremum, and leaves attainment as a distinct question. Numeraire projections \cite{lrr} and GROW duality \cite{rlrr} concern related optimization problems with different objective functions.
+
+\section*{Research disclosure}
+
+\begingroup\raggedright
+Under human direction, ChatGPT Astra 6.2 (OpenAI) generated the discovery proof and original replay packet. The release includes the archived scope note on finite convexity. OpenAI Codex reviewed the mathematics and revised the manuscript. GPT-6.2 Sol checked the original question and related literature, prepared the exact finite replay and worked visual, and assembled the release. DannyExperiments maintains the repository and is the preferred citation identity. No AI system is proposed as an author.
+\par\endgroup
+
+\begin{thebibliography}{9}
+\bibitem{lgh}
+T. Lardy, P. Gr\"unwald, and P. Harremo\"es, \emph{Reverse information projections and optimal e-statistics}, IEEE Trans. Inform. Theory \textbf{70} (2024), 7616--7631. \href{https://doi.org/10.1109/TIT.2024.3444458}{doi:10.1109/TIT.2024.3444458}. \href{https://ir.cwi.nl/pub/34437/34437.pdf}{Author manuscript}.
+\bibitem{thesis}
+T. D. Lardy, \emph{Optimal test statistics for anytime-valid hypothesis tests}, Ph.D. dissertation, Leiden University, 2025. \href{https://ir.cwi.nl/pub/35219/ThesisLardy.pdf}{Dissertation}.
+\bibitem{lrr}
+M. Larsson, A. Ramdas, and J. Ruf, \emph{The numeraire e-variable and reverse information projection}, \href{https://arxiv.org/abs/2402.18810v4}{arXiv:2402.18810v4}, 2025.
+\bibitem{rlrr}
+A. Ram, M. Larsson, J. Ruf, and A. Ramdas, \emph{Strong duality for the GROW criterion}, \href{https://arxiv.org/abs/2606.24768v2}{arXiv:2606.24768v2}, 2026.
+\end{thebibliography}
+\end{document}

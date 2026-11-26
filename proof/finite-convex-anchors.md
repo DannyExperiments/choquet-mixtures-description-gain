@@ -1,0 +1,7 @@
+# Exactly where the finite-convex Fatou argument works
+
+Suppose P≪Q, C is only finitely convex, and an anchor R₀∈C has finite gain relative to Q. For each candidate S in the L¹ closure with value above −∞, select Rₙ∈C with rₙ→s in L¹ and almost everywhere along a subsequence. For fixed t∈(0,1), mix with R₀: Rₙ′=(1−t)Rₙ+tR₀ belongs to C, and log(rₙ′/q)≥log t+log(r₀/q) P-almost surely. The lower bound is integrable. Fatou gives sup_C g≥g((1−t)S+tR₀), using convergence of total masses. Concavity of log and linearity of the mass give the bound (1−t)g(S)+t g(R₀), including +∞. Let t↓0. An existing +∞ member would give equality trivially. This proves the anchored case by routine means; Q∈C itself suffices as an anchor under P≪Q. L¹ closure contains the Choquet hull by the original separation argument, so both comparisons agree in this case.
+
+Without an anchor, finite convexity fails, even with P=Q and common domination: let P be a full-support geometric law on the nonnegative integers and C the finitely supported probabilities. Each gain is −∞, while P is both an L¹ limit and a countable mixture of point masses in C, with gain zero. This is the obstruction in the authors’ Example 4, now expressed with a fixed reference Q. The delivered proof uses σ-convexity to manufacture the needed lower envelope rather than assume a pre-existing finite-gain anchor. The authors' Lemma 4 and Theorem 7 address other countable-hull regimes, not this general no-anchor case.
+
+[Source Example 4 and Lemma 4](https://ir.cwi.nl/pub/34437/34437.pdf#page=21).

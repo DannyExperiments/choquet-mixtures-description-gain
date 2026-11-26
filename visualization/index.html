@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Later rows guarantee a density floor</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101c30;color:#f6f8fd;color-scheme:dark;font:17px/1.5 system-ui,sans-serif}
+main{max-width:65rem;margin:auto;padding:clamp(1rem,4vw,2.3rem)}
+h1{font-size:clamp(1.8rem,5.5vw,3.05rem);line-height:1.13;letter-spacing:-.035em;margin:0 0 .65rem}
+h2{font-size:1.18rem;margin:0 0 .55rem}
+p{margin:0 0 .8rem;color:#cbd7ee}
+.layout{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:1rem;margin:1.15rem 0}
+.card{padding:1rem;background:#1a2b47;border:1px solid #3b5377;border-radius:1rem}
+.choice{display:flex;align-items:center;flex-wrap:wrap;gap:.55rem;margin:.45rem 0 .7rem}
+select{min-height:44px;background:#244063;color:inherit;border:1px solid #7a98bc;border-radius:.55rem;padding:.35rem .55rem;font:inherit;max-width:100%}
+.slider{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.55rem;align-items:center;margin:.7rem 0}
+input{width:100%;min-height:37px;margin:0;accent-color:#8be8df}
+canvas{display:block;width:100%;height:clamp(230px,45vw,340px);background:#101c30;border-radius:.7rem;touch-action:pan-y}
+:focus-visible{outline:3px solid #ffcf83;outline-offset:3px}
+dl{margin:.6rem 0}
+dl div{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.25rem .7rem;padding:.4rem 0}
+dt{color:#cbd7ee}dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums}
+#floor{color:#8be8df;font-size:1.3rem}
+table{width:100%;border-collapse:collapse;margin-top:.6rem}
+th,td{text-align:left;padding:.36rem .18rem;border-top:1px solid #4d6587}
+tfoot td{border-top:1px solid #91a6c4}
+tr.low td{color:#ffb8a6}
+.legend{margin:.5rem 0;color:#cbd7ee}
+details{margin-top:1rem}summary{cursor:pointer;min-height:44px;font-weight:700}
+@media(max-width:720px){.layout{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<h1>Later rows guarantee a density floor</h1>
+<p>Each row approximates the target density. At each atom, rows after the last low entry provide a guaranteed contribution to the mixture.</p>
+<div class="layout">
+  <section class="card" aria-labelledby="matrix">
+    <h2 id="matrix">Weighted density entries</h2>
+    <div class="choice"><label for="atom">Atom</label><select id="atom"><option value="0">A</option><option value="1">B</option><option value="2">C</option></select></div>
+    <div class="choice"><label for="view">Rows shown</label><select id="view"><option value="all">All rows</option><option value="tail">After the last low row</option></select></div>
+    <canvas id="scene" role="img" aria-label="Rotatable grid of the weighted density entries. Coral marks an entry below the threshold."></canvas>
+    <p class="legend">The selected atom is highlighted. Coral marks a density below ¼.</p>
+    <div class="slider"><label for="angle">Rotate</label><input id="angle" type="range" min="0" max="360" value="32"></div>
+  </section>
+  <section class="card" aria-labelledby="values">
+    <h2 id="values">Atom values</h2>
+    <div aria-live="polite">
+      <dl>
+        <div><dt>Target density</dt><dd>1/3</dd></div>
+        <div><dt>Last low row</dt><dd id="last"></dd></div>
+        <div><dt>Guaranteed density floor</dt><dd id="floor"></dd></div>
+        <div><dt>Actual mixture density</dt><dd id="actual"></dd></div>
+      </dl>
+      <table aria-label="Rows at the selected atom">
+        <thead><tr><th scope="col">Row</th><th scope="col">Weight</th><th scope="col">Density</th></tr></thead>
+        <tbody>
+          <tr id="row-0"><th scope="row">1</th><td>1/2</td><td id="entry-0"></td></tr>
+          <tr id="row-1"><th scope="row">2</th><td>1/4</td><td id="entry-1"></td></tr>
+          <tr id="row-2"><th scope="row">3 onward</th><td>1/4</td><td id="entry-2"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+<details>
+  <summary>Why the floor accounts for every later row</summary>
+  <p>The tolerance is δ = 1/4, so an entry below (1−δ)s = 1/4 is low. With weights 2<sup>−n</sup>, the rows after the last low row N have total weight 2<sup>−N</sup>. Their density is at least one quarter each. That gives the floor 2<sup>−N</sup>/4. When no row is low, N is zero.</p>
+  <p>The bars show weight times density. The third display row groups all rows from n = 3 onward into their exact weighted average. Every individual row in that group meets the threshold.</p>
+</details>
+</main>
+<script>
+"use strict";
+const byId=id=>document.getElementById(id);
+const canvas=byId("scene"),ctx=canvas.getContext("2d");
+const atom=byId("atom"),view=byId("view"),angle=byId("angle");
+const densities=[[4,8,8],[8,4,8],[8,8,7]];
+const weights=[2,1,1];
+const faces=[[0,1,3,2],[4,6,7,5],[0,4,5,1],[2,3,7,6],[0,2,6,4],[1,5,7,3]];
+const palette={
+  good:["#56a99f","#68c6ba","#386b68","#78dcd1","#498d87","#6bc4b8"],
+  low:["#b87d6f","#d69381","#9c6457","#ffac97","#a36f61","#e49e8c"],
+  other:["#4b668d","#55759b","#344b6c","#6889b0","#405c82","#5e7da7"]
+};
+let dragX=null;
+function ratio(n,d){
+  let a=n,b=d;
+  while(b) [a,b]=[b,a%b];
+  return d===a?String(n/a):`${n/a}/${d/a}`;
+}
+function lastLow(column){
+  return densities.reduce((last,entries,index)=>entries[column]<6?index+1:last,0);
+}
+function draw(){
+  const selected=Number(atom.value),cutoff=view.value==="tail"?lastLow(selected):0;
+  const {width,height}=canvas.getBoundingClientRect();
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  canvas.width=Math.round(width*dpr);
+  canvas.height=Math.round(height*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const yaw=Number(angle.value)*Math.PI/180;
+  const pitch=.41+.15*Math.cos(yaw);
+  function project([x,y,z]){
+    const rx=x*Math.cos(yaw)+z*Math.sin(yaw);
+    const rz=z*Math.cos(yaw)-x*Math.sin(yaw);
+    const ry=y*Math.cos(pitch)-rz*Math.sin(pitch);
+    const depth=y*Math.sin(pitch)+rz*Math.cos(pitch);
+    const scale=Math.min(width,height)*1.03/(5.5-depth);
+    return {x:width/2+scale*rx,y:height/2-scale*ry,depth};
+  }
+  const polygons=[];
+  for(let row=cutoff;row<3;row++)
+    for(let column=0;column<3;column++){
+      const x=(column-1)*1.11,z=(row-1)*1.11;
+      const density=densities[row][column];
+      const height=11*weights[row]*density/96;
+      const vertices=[];
+      for(const a of [x-.39,x+.39])
+        for(const b of [-.9,height-.9])
+          for(const c of [z-.39,z+.39])
+            vertices.push(project([a,b,c]));
+      const kind=column===selected?(density<6?"low":"good"):"other";
+      faces.forEach((ids,index)=>{
+        const points=ids.map(id=>vertices[id]);
+        polygons.push({points,depth:points.reduce((sum,p)=>sum+p.depth,0)/4,color:palette[kind][index]});
+      });
+    }
+  polygons.sort((a,b)=>a.depth-b.depth);
+  for(const {points,color} of polygons){
+    ctx.beginPath();
+    ctx.moveTo(points[0].x,points[0].y);
+    for(const point of points.slice(1)) ctx.lineTo(point.x,point.y);
+    ctx.closePath();
+    ctx.fillStyle=color;
+    ctx.fill();
+    ctx.strokeStyle="#101c30";
+    ctx.stroke();
+  }
+}
+function show(){
+  const selected=Number(atom.value);
+  const last=lastLow(selected);
+  byId("last").textContent=last===0?"None (0)":String(last);
+  byId("floor").textContent=ratio(1,4*2**last);
+  const mass=densities.reduce((total,row,index)=>total+row[selected]*weights[index],0);
+  byId("actual").textContent=ratio(mass,96);
+  for(let row=0;row<3;row++){
+    byId(`entry-${row}`).textContent=ratio(densities[row][selected],24);
+    byId(`row-${row}`).classList.toggle("low",densities[row][selected]<6);
+  }
+  draw();
+}
+atom.addEventListener("change",show);
+view.addEventListener("change",draw);
+angle.addEventListener("input",draw);
+canvas.addEventListener("pointerdown",event=>{
+  dragX=event.clientX;
+  canvas.setPointerCapture(event.pointerId);
+});
+canvas.addEventListener("pointermove",event=>{
+  if(dragX===null) return;
+  const next=Math.round(Number(angle.value)+1.2*(event.clientX-dragX));
+  angle.value=(next%360+360)%360;
+  dragX=event.clientX;
+  draw();
+});
+for(const event of ["pointerup","pointercancel","lostpointercapture"])
+  canvas.addEventListener(event,()=>{dragX=null;});
+new ResizeObserver(draw).observe(canvas);
+show();
+</script>
+</body>
+</html>

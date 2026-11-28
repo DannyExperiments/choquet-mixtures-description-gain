@@ -1,6 +1,6 @@
 # Maximum description gain under arbitrary measurable mixtures
 
-[![Repository verification](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/verify.yml) [![Replay verification](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/replay.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/replay.yml) [![PDF build](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/pdf.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/pdf.yml) [![Version DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24572497.svg)](https://doi.org/10.5281/zenodo.24572497)
+[![Repository verification](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/verify.yml) [![Replay verification](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/replay.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/replay.yml) [![PDF build](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/pdf.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/pdf.yml) [![Version DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24572497.svg)](https://doi.org/10.5281/zenodo.24572497) [![Partial Lean verification](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/lean.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/choquet-mixtures-description-gain/actions/workflows/lean.yml)
 
 For a countably convex class of subprobabilities, the description-gain supremum is unchanged by arbitrary measurable mixtures or by closing the densities in L¹. All measures share a single σ-finite dominator. This answers the arbitrary-mixture question of Lardy, Grünwald and Harremoës. The equality includes infinite gains and requires no given finite-gain member.
 
@@ -30,3 +30,7 @@ The [recorded replay](verification/results/replay.txt) checks the geometric enve
 ## Cite
 
 DannyExperiments. *Maximum description gain under arbitrary measurable mixtures*. Version 1.0.0, 27 November 2026. [Version DOI](https://doi.org/10.5281/zenodo.24572497).
+
+## Partial Lean verification
+
+For finite lists of rational pointwise density values, a nonnegative initial segment of length N followed by terms and a terminal remainder of height at least c gives a geometric mixture of height at least c/2ᴺ. [Scope, source and replay](formalization/README.md)
